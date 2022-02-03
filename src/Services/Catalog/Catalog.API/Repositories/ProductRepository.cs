@@ -16,22 +16,25 @@ namespace Catalog.API.Repositories
 
         public async Task<IEnumerable<Product>> GetProducts()
         {
-            var products = await _context.Products.FindAsync(p=>true);
-            return (IEnumerable<Product>)products;
+            var products = await _context.Products.Find(p => true).ToListAsync();
+            return products;
         }
         public async Task<Product> GetProduct(string id)
         {
-            return (Product)await _context.Products.FindAsync(p => p.Id == id);
+            var product = await _context.Products.Find(p => p.Id == id).FirstAsync();
+            return product;
         }
 
         public async Task<IEnumerable<Product>> GetProductByName(string name)
         {
-            return (IEnumerable<Product>)await _context.Products.FindAsync(p => p.Name == name);
+            var products = await _context.Products.Find(p => p.Name == name).ToListAsync();
+            return products;
         }
 
         public async Task<IEnumerable<Product>> GetProductByCategory(string categoryName)
         {
-            return (IEnumerable<Product>)await _context.Products.FindAsync(p => p.Category == categoryName);
+            var products = await _context.Products.Find(p => p.Category == categoryName).ToListAsync();
+            return products;
         }
 
         public async Task CreateProduct(Product product)
